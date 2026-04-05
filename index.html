@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>To-Do List !!</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f0e1a;color:#e0dff0;min-height:100vh;}
+.banner{height:80px;background:linear-gradient(180deg,#1e1a40 0%,#13102b 100%);}
+.wrap{max-width:820px;margin:0 auto;padding:0 28px 60px;}
+.icon{font-size:36px;margin:12px 0 8px;}
+h1{font-size:34px;font-weight:700;color:#fff;margin-bottom:4px;}
+.sub{font-size:14px;color:#8b89a8;margin-bottom:18px;}
+.tabs{display:flex;border-bottom:1px solid #2a2845;margin-bottom:28px;}
+.tab{padding:8px 18px;font-size:14px;color:#7a7899;cursor:pointer;border:none;background:none;font-family:inherit;position:relative;}
+.tab.on{color:#fff;font-weight:600;}
+.tab.on::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:2px;background:#7c6cf0;border-radius:2px 2px 0 0;}
+.badge{background:#3d3860;color:#b0aee0;font-size:11px;padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:600;}
+.card{background:#1c1a35;border:1px solid #2e2b50;border-radius:12px;padding:24px 28px;margin-bottom:32px;}
+.rlabel{font-size:11px;font-weight:700;letter-spacing:1.5px;color:#7c6cf0;margin-bottom:10px;text-transform:uppercase;}
+.rinst{font-size:14px;color:#b0aed0;margin-bottom:16px;line-height:1.6;}
+.quote{border-left:3px solid #5c52c8;padding:12px 16px;background:#211e3d;border-radius:0 8px 8px 0;margin-bottom:22px;}
+.quote p{font-size:14px;color:#c0bfe8;line-height:1.7;}
+.ti{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.ti:last-child{margin-bottom:0;}
+.cb{width:18px;height:18px;border:2px solid #4a4770;border-radius:3px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.cb.ck{background:#7c6cf0;border-color:#7c6cf0;}
+.cb.ck::after{content:'✓';color:#fff;font-size:11px;font-weight:700;}
+.tnum{font-size:14px;color:#7a7899;min-width:20px;}
+.tinput{background:transparent;border:none;border-bottom:1px solid #2e2b50;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;flex:1;padding:2px 0;}
+.tinput:focus{border-bottom-color:#7c6cf0;}
+.tinput::placeholder{color:#4a4770;}
+.tinput.done{text-decoration:line-through;color:#5a5880;}
+.sec{font-size:11px;font-weight:700;letter-spacing:1.5px;color:#5a5880;text-transform:uppercase;margin-bottom:18px;border-top:1px solid #2a2845;padding-top:24px;}
+.th{display:grid;grid-template-columns:1fr 90px 140px 140px 90px;padding:6px 0 10px;border-bottom:1px solid #2a2845;}
+.ch{font-size:11px;font-weight:700;letter-spacing:1px;color:#5a5880;text-transform:uppercase;}
+.tr{display:grid;grid-template-columns:1fr 90px 140px 140px 90px;padding:16px 0;border-bottom:1px solid #1e1c36;align-items:center;}
+.tr:hover{background:#1a1830;border-radius:6px;}
+.tn{font-size:15px;color:#e0dff0;padding-right:12px;}
+.sb{display:inline-flex;align-items:center;justify-content:center;width:44px;height:28px;background:#3d2fa8;border-radius:20px;font-size:13px;font-weight:700;color:#c8c0ff;}
+.ub,.ib{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;}
+.u1{background:#5a1a1a;color:#ff6b6b;}
+.u2{background:#3d2a00;color:#e0a020;}
+.u3{background:#3a3000;color:#c8b400;}
+.u4{background:#003d3a;color:#40c8c0;}
+.i1{background:#4a2a00;color:#e8a030;}
+.i2{background:#2a1a40;color:#c080ff;}
+.i3{background:#1a3a00;color:#60c040;}
+.i4{background:#003a3a;color:#40b8b0;}
+.dt{font-size:14px;color:#8b89a8;}
+.fc{background:#161430;border:1px solid #2a2845;border-radius:12px;padding:18px 24px;margin-top:32px;}
+.ft{font-size:13px;color:#5a7af0;margin-bottom:6px;line-height:1.6;}
+.ft span{color:#8ab0ff;font-weight:600;}
+.fs{font-size:13px;color:#5a7af0;}
+.pane{display:none;}
+.pane.on{display:block;}
+</style>
+</head>
+<body>
+<div class="banner"></div>
+<div class="wrap">
+  <div class="icon">⚡</div>
+  <h1>To-Do List !!</h1>
+  <p class="sub">Ssun's Math-Powered Priority System</p>
+  <div class="tabs">
+    <button class="tab on" onclick="go('today',0)">⚡ Today's TOP <span class="badge">3</span></button>
+    <button class="tab" onclick="go('all',1)">All Tasks</button>
+    <button class="tab" onclick="go('queue',2)">Priority Queue</button>
+    <button class="tab" onclick="go('quick',3)">Quick Win</button>
+    <button class="tab" onclick="go('status',4)">By Status</button>
+  </div>
+
+  <!-- TODAY'S TOP -->
+  <div class="pane on" id="p-today">
+    <div class="card">
+      <div class="rlabel">EVERY MORNING RITUAL</div>
+      <p class="rinst">Open Priority Queue → pick top 3 → type here → close tab → start with #1.</p>
+      <div class="quote">
+        <p>🧠 Scrolling is browsing. Writing is a promise to yourself.<br>Your prefrontal cortex fires when you type it out — that's the ADHD advantage.</p>
+      </div>
+      <div class="ti"><div class="cb" onclick="tc(this)"></div><span class="tnum">1.</span><input class="tinput" placeholder="Type your #1 task here..."></div>
+      <div class="ti"><div class="cb" onclick="tc(this)"></div><span class="tnum">2.</span><input class="tinput" placeholder="Type your #2 task here..."></div>
+      <div class="ti"><div class="cb" onclick="tc(this)"></div><span class="tnum">3.</span><input class="tinput" placeholder="Type your #3 task here..."></div>
+    </div>
+    <div class="sec">PRIORITY QUEUE — SORTED BY SCORE</div>
+    <div class="th">
+      <div class="ch">TASK</div><div class="ch">SCORE</div><div class="ch">URGENCY</div><div class="ch">IMPORTANCE</div><div class="ch">DURATION</div>
+    </div>
+    <div class="tr"><div class="tn">Launch Etsy store</div><div><span class="sb">9.2</span></div><div><span class="ub u1">CODE RED</span></div><div><span class="ib i1">The GOAT</span></div><div class="dt">60 min</div></div>
+    <div class="tr"><div class="tn">Finish template design</div><div><span class="sb">7.8</span></div><div><span class="ub u2">Pressure's on</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">45 min</div></div>
+    <div class="tr"><div class="tn">Write guide intro (EN)</div><div><span class="sb">6.5</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">30 min</div></div>
+    <div class="tr"><div class="tn">Reply to Upwork inquiry</div><div><span class="sb">5.1</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i3">Keep it 100</span></div><div class="dt">20 min</div></div>
+    <div class="tr"><div class="tn">Research nail art trends</div><div><span class="sb">3.4</span></div><div><span class="ub u4">On the Radar</span></div><div><span class="ib i4">Lowkey</span></div><div class="dt">40 min</div></div>
+    <div class="fc">
+      <p class="ft"><span>Ssun's Formula</span> — (Importance×4 + Urgency×3 + Reward×2 − EnergyDrain) ÷ Duration</p>
+      <p class="fs">Higher score = do it first. Short + high impact always wins.</p>
+    </div>
+  </div>
+
+  <!-- ALL TASKS -->
+  <div class="pane" id="p-all">
+    <div class="sec" style="border-top:none;padding-top:0;">ALL TASKS</div>
+    <div id="atl">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;"><div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" value="Launch Etsy store"></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;"><div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" value="Finish template design"></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;"><div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" value="Write guide intro (EN)"></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;"><div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" value="Reply to Upwork inquiry"></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;"><div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" value="Research nail art trends"></div>
+    </div>
+    <button onclick="addT()" style="background:#2a2845;border:1px dashed #4a4770;border-radius:8px;padding:10px 16px;color:#7a7899;font-size:14px;cursor:pointer;width:100%;text-align:left;font-family:inherit;margin-top:8px;">+ New task</button>
+  </div>
+
+  <!-- PRIORITY QUEUE -->
+  <div class="pane" id="p-queue">
+    <div class="sec" style="border-top:none;padding-top:0;">PRIORITY QUEUE — SORTED BY SCORE</div>
+    <div class="th">
+      <div class="ch">TASK</div><div class="ch">SCORE</div><div class="ch">URGENCY</div><div class="ch">IMPORTANCE</div><div class="ch">DURATION</div>
+    </div>
+    <div class="tr"><div class="tn">Launch Etsy store</div><div><span class="sb">9.2</span></div><div><span class="ub u1">CODE RED</span></div><div><span class="ib i1">The GOAT</span></div><div class="dt">60 min</div></div>
+    <div class="tr"><div class="tn">Finish template design</div><div><span class="sb">7.8</span></div><div><span class="ub u2">Pressure's on</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">45 min</div></div>
+    <div class="tr"><div class="tn">Write guide intro (EN)</div><div><span class="sb">6.5</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">30 min</div></div>
+    <div class="tr"><div class="tn">Reply to Upwork inquiry</div><div><span class="sb">5.1</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i3">Keep it 100</span></div><div class="dt">20 min</div></div>
+    <div class="tr"><div class="tn">Research nail art trends</div><div><span class="sb">3.4</span></div><div><span class="ub u4">On the Radar</span></div><div><span class="ib i4">Lowkey</span></div><div class="dt">40 min</div></div>
+    <div class="fc">
+      <p class="ft"><span>Ssun's Formula</span> — (Importance×4 + Urgency×3 + Reward×2 − EnergyDrain) ÷ Duration</p>
+      <p class="fs">Higher score = do it first. Short + high impact always wins.</p>
+    </div>
+  </div>
+
+  <!-- QUICK WIN -->
+  <div class="pane" id="p-quick">
+    <div class="sec" style="border-top:none;padding-top:0;">QUICK WIN — UNDER 20 MIN</div>
+    <div class="th">
+      <div class="ch">TASK</div><div class="ch">SCORE</div><div class="ch">URGENCY</div><div class="ch">IMPORTANCE</div><div class="ch">DURATION</div>
+    </div>
+    <div class="tr"><div class="tn">Reply to Upwork inquiry</div><div><span class="sb">5.1</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i3">Keep it 100</span></div><div class="dt">20 min</div></div>
+  </div>
+
+  <!-- BY STATUS -->
+  <div class="pane" id="p-status">
+    <div class="sec" style="border-top:none;padding-top:0;">BY STATUS</div>
+    <div style="font-size:12px;font-weight:700;color:#7c6cf0;margin-bottom:12px;letter-spacing:1px;">IN PROGRESS</div>
+    <div class="tr"><div class="tn">Launch Etsy store</div><div><span class="sb">9.2</span></div><div><span class="ub u1">CODE RED</span></div><div><span class="ib i1">The GOAT</span></div><div class="dt">60 min</div></div>
+    <div style="font-size:12px;font-weight:700;color:#5a5880;margin:16px 0 12px;letter-spacing:1px;">NOT STARTED</div>
+    <div class="tr"><div class="tn">Finish template design</div><div><span class="sb">7.8</span></div><div><span class="ub u2">Pressure's on</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">45 min</div></div>
+    <div class="tr"><div class="tn">Write guide intro (EN)</div><div><span class="sb">6.5</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i2">Game Changer</span></div><div class="dt">30 min</div></div>
+    <div class="tr"><div class="tn">Reply to Upwork inquiry</div><div><span class="sb">5.1</span></div><div><span class="ub u3">Hustle Mode</span></div><div><span class="ib i3">Keep it 100</span></div><div class="dt">20 min</div></div>
+    <div class="tr"><div class="tn">Research nail art trends</div><div><span class="sb">3.4</span></div><div><span class="ub u4">On the Radar</span></div><div><span class="ib i4">Lowkey</span></div><div class="dt">40 min</div></div>
+  </div>
+</div>
+
+<script>
+function go(id,i){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab')[i].classList.add('on');
+  document.getElementById('p-'+id).classList.add('on');
+}
+function tc(el){
+  el.classList.toggle('ck');
+  var inp=el.closest('.ti').querySelector('.tinput');
+  inp.classList.toggle('done');
+}
+function addT(){
+  var l=document.getElementById('atl');
+  var d=document.createElement('div');
+  d.style.cssText='display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #1e1c36;';
+  d.innerHTML='<div style="width:8px;height:8px;border-radius:50%;background:#7c6cf0;flex-shrink:0;"></div><input style="flex:1;background:transparent;border:none;color:#e0dff0;font-size:14px;font-family:inherit;outline:none;" placeholder="New task...">';
+  l.appendChild(d);
+  d.querySelector('input').focus();
+}
+</script>
+</body>
+</html>
